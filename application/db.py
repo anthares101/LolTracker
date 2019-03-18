@@ -2,6 +2,7 @@
 from telebot import util
 from application import bot
 from model.chat import Chat
+from application.boards import *
 
 
 @bot.message_handler(commands=['save'])
@@ -33,3 +34,17 @@ def load(message):
         return
 
     bot.reply_to(message, "Dato recuperado: %s" % data.value)
+
+@bot.message_handler(commands=['region'])
+def region(message):
+    uid = message.chat.id
+    data = Chat.get_config(uid, "region")
+    bot.reply_to(message, "%s actualmente seleccionada" %data.value)
+    region_board(message)
+
+
+@bot.callback_query_handler(func=lambda lib: lib.data in ["br","eune","euw","jp","kr","lan","las","na","oce","tr","ru","pbe"])
+def set_region(lib):
+    uid = lib.message.chat.id
+    Chat.set_config(uid, "region", lib.data)
+    bot.reply_to(lib.message, "%s seleccionada" %lib.data)
