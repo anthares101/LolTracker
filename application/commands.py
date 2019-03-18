@@ -56,14 +56,24 @@ def summoner(message):
 
                 text = "*Nombre:* " + str(content["name"]) + "\n*Nivel:* " + str(content["summonerLevel"]) + "\n"
                 text += "*SoloQ:* " + contentLeague[0]["tier"] + " " + contentLeague[0]["rank"] + " -> " + str(contentLeague[0]["leaguePoints"]) + " LP\n"
-                text += "             Victorias: " + str(contentLeague[0]["wins"]) + "\n"
-                text += "             Derrotas: " + str(contentLeague[0]["losses"]) + "\n"
+                text += "             *Victorias:* " + str(contentLeague[0]["wins"]) + "\n"
+                text += "             *Derrotas:* " + str(contentLeague[0]["losses"]) + "\n\n"
 
+                url = 'https://' + region.value + '.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/' + summonerId
+                r = requests.get(url, params)
+                contentChamp = r.json()
+
+                champ = ""
+                with open('champion.json') as json_file:
+                    file = json.load(json_file)
+                    champion_list = file['data']
+                    for champion_name in champion_list.keys():
+                        if champion_list[champion_name]['key'] == str(contentChamp[0]["championId"]):
+                            champ += champion_list[champion_name]['name']
+
+                text += "*Mejor campeón:* " + champ
 
                 bot.send_message(message.chat.id, text, parse_mode="Markdown")
-
-                #photo = open("Data/profileicon/" + content["profileIconId"] + ".png")
-                #bot.send_photo(message.chat.id, photo)
             else:#Request error
                 bot.send_message(message.chat.id, "Invocador desconocido")
 
