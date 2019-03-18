@@ -1,6 +1,7 @@
 # coding=utf-8
 import requests
 from telebot import util
+from model.chat import Chat
 
 from application import bot, RIOT_KEY
 
@@ -17,7 +18,9 @@ def summoner(message):
     if not name:
         bot.reply_to(message, "Especifique un nombre de invocador")
     else:
-        url = 'https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/'+name
+        cid = chat_id = message.chat.id
+        region = Chat.get_config(cid, "region").value
+        url = 'https://'+region+'.api.riotgames.com/lol/summoner/v4/summoners/by-name/'+name
         params = {
             'api_key': RIOT_KEY
         }

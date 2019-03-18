@@ -44,8 +44,12 @@ def region(message):
     region_board(message)
 
 
-@bot.callback_query_handler(func=lambda lib: lib.data in ["br","eune","euw","jp","kr","lan","las","na","oce","tr","ru","pbe"])
+@bot.callback_query_handler(func=lambda lib: lib.data in ["br1","eun1","euw1","jp1","kr","la1","la2","na1","oc1","tr1","ru","pbe1"])
 def set_region(lib):
     uid = lib.message.chat.id
     Chat.set_config(uid, "region", lib.data)
     bot.reply_to(lib.message, "%s seleccionada" %lib.data)
+
+
+
+    #"br", "eune", "euw", "jp", "kr", "lan", "las", "na", "oce", "tr", "ru", "pbe"
