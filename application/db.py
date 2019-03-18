@@ -39,7 +39,8 @@ def load(message):
 def region(message):
     uid = message.chat.id
     data = Chat.get_config(uid, "region")
-    bot.reply_to(message, "%s actualmente seleccionada" %data.value)
+    if data is not None:
+        bot.reply_to(message, "%s actualmente seleccionada" %data.value)
     region_board(message)
 
 
