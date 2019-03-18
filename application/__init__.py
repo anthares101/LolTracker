@@ -12,8 +12,8 @@ TOKEN = os.environ.get('BOT_TOKEN')
 if not TOKEN:
     raise Exception('No se ha definido BOT_TOKEN')
 
-RIOT-KEY = os.environ.get('RIOT-API_KEY')
-if not RIOT-KEY:
+RIOT_KEY = os.environ.get('RIOT-API_KEY')
+if not RIOT_KEY:
     raise Exception('No se ha definido RIOT-API_KEY')
 
 SECRET_TOKEN = os.environ.get('SECRET_TOKEN', False)
